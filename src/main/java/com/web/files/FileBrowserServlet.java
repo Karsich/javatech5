@@ -1,7 +1,5 @@
 package com.web.files;
 
-import com.web.files.Service.AccountService;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -13,6 +11,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.regex.Pattern;
+
+import static com.web.files.Service.CookieService.GetCookie;
 
 public class FileBrowserServlet extends HttpServlet {
     @Override
@@ -29,20 +30,20 @@ public class FileBrowserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = (String)request.getSession().getAttribute("login");
         String pass = (String)request.getSession().getAttribute("pass");
+        Cookie cookie = GetCookie(request,"Auth");
+        if (login==null) login = cookie.getValue();
 
 
-        if (AccountService.getUserByLogin(login)==null || !AccountService.getUserByLogin(login).getPass().equals(pass)) {
+        //if (AccountService.getUserByLogin(login)==null || !AccountService.getUserByLogin(login).getPass().equals(pass) || cookie.getValue()==null) {
+        if (cookie.getValue().equals("")) {
             String currentURL = request.getRequestURL().toString();
             response.sendRedirect(currentURL.substring(0, currentURL.lastIndexOf("/")) + "/auth");
             return;
         }
-        Cookie loginCookie = new Cookie("login", login);
-        loginCookie.setPath("/");
-        loginCookie.setMaxAge(60 * 60 * 24 * 365); // Set cookie expiration to 1 year
-        response.addCookie(loginCookie);
 
         String path = request.getParameter("path");
-        if (path == null || path.equals("C:\\JavaTechDB") )
+        String pattern = "^C:\\\\JavaTechDB\\\\[a-zA-Z_0-9]+[\\\\/].*$";
+        if (path == null || !Pattern.matches(pattern, path) )
             path = "C:\\JavaTechDB\\" + login;
 
         File directory = new File(path);
@@ -66,6 +67,10 @@ public class FileBrowserServlet extends HttpServlet {
                        HttpServletResponse httpServletResponse) throws IOException {
         httpServletRequest.getSession().removeAttribute("login");
         httpServletRequest.getSession().removeAttribute("pass");
+
+        Cookie cookie = new Cookie("Auth","");
+        cookie.setMaxAge(1000000);
+        httpServletResponse.addCookie(cookie);
 
         String currentURL = httpServletRequest.getRequestURL().toString();
         httpServletResponse.sendRedirect(currentURL.substring(0, currentURL.lastIndexOf("/")) + "/auth");
