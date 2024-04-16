@@ -1,4 +1,4 @@
-package com.web.files;
+package com.web.files.servlets;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

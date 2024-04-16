@@ -1,4 +1,4 @@
-package com.web.files;
+package com.web.files.servlets;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -42,9 +42,9 @@ public class FileBrowserServlet extends HttpServlet {
         }
 
         String path = request.getParameter("path");
-        String pattern = "^C:\\\\JavaTechDB\\\\[a-zA-Z_0-9]+[\\\\/].*$";
+        String pattern = "^C:\\\\JavaTechDB5\\\\[a-zA-Z_0-9]+[\\\\/].*$";
         if (path == null || !Pattern.matches(pattern, path) )
-            path = "C:\\JavaTechDB\\" + login;
+            path = "C:\\JavaTechDB5\\" + login;
 
         File directory = new File(path);
 

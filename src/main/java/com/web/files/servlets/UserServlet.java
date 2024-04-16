@@ -1,4 +1,4 @@
-package com.web.files;
+package com.web.files.servlets;
 
 import com.web.files.Model.UserProfile;
 import com.web.files.Service.AccountService;
@@ -47,7 +47,7 @@ public class UserServlet extends HttpServlet {
 
 
             // Создание новой папки для пользователя
-            File folder = new File("C:\\JavaTechDB",login);
+            File folder = new File("C:\\JavaTech5DB",login);
             boolean isCreationSuccess = folder.mkdir();
             //Скорее всего никогда не будет false, но если будет нехватать памяти или что-то ещё, то сработает
             if (!isCreationSuccess) {

@@ -5,11 +5,11 @@
          version="4.0">
     <servlet>
         <servlet-name>browser-servlet</servlet-name>
-        <servlet-class>com.web.files.FileBrowserServlet</servlet-class>
+        <servlet-class>com.web.files.servlets.FileBrowserServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>download-servlet</servlet-name>
-        <servlet-class>com.web.files.FileDownloadServlet</servlet-class>
+        <servlet-class>com.web.files.servlets.FileDownloadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>browser-servlet</servlet-name>
